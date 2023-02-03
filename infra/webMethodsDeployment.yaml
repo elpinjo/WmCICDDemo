@@ -50,9 +50,10 @@ spec:
               value: "http://jenkins.cicd/"
             - name: "JENKINS_AGENT_NAME"
               value: "wMBuilder"
+            - name: "JENKINS_SECRET"
+              value: "@/etc/jenkins/jenkins-secret.txt"
         - name: "wm-builder"
           image: "registry.k8s/wmbuilder:latest"
-          args: ["-secret", "@/etc/jenkins/jenkins-secret.txt"]
           ports:
             - containerPort: 5555
               protocol: "TCP"
