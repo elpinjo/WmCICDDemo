@@ -48,6 +48,8 @@ spec:
           env:
             - name: "JENKINS_URL"
               value: "http://jenkins.cicd/"
+            - name: "JENKINS_AGENT_WORKDIR"
+              value: "/tmp/jenkins"
             - name: "JENKINS_AGENT_NAME"
               value: "wMBuilder"
             - name: "JENKINS_SECRET"
