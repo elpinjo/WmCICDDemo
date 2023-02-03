@@ -42,8 +42,9 @@ spec:
         app: "wm-builder"
     spec:
       containers:
-        - name: jenkins/jnlp-slave
-          workingDir: /tmp/jenkins
+        - name: jnlp-slave
+          image: "jenkins/jnlp-slave"
+          workingDir: "/tmp/jenkins"
           env:
             - name: "JENKINS_URL"
               value: "http://jenkins.cicd/"
