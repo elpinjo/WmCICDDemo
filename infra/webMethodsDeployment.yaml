@@ -44,12 +44,12 @@ spec:
       containers:
         - name: jnlp-slave
           image: "jenkins/jnlp-slave"
-          workingDir: "/tmp/jenkins"
+          workingDir: "/tmp"
           env:
             - name: "JENKINS_URL"
               value: "http://jenkins.cicd/"
             - name: "JENKINS_AGENT_WORKDIR"
-              value: "/tmp/jenkins"
+              value: "/tmp"
             - name: "JENKINS_AGENT_NAME"
               value: "wMBuilder"
             - name: "JENKINS_SECRET"
