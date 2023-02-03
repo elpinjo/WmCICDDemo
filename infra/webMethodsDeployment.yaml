@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
         - name: jnlp-slave
-          image: "jenkins/jnlp-slave"
+          image: "jenkins/inbound-agent"
           workingDir: "/tmp"
           env:
             - name: "JENKINS_URL"
