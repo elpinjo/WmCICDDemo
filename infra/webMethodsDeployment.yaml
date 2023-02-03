@@ -47,7 +47,9 @@ spec:
           workingDir: "/tmp"
           env:
             - name: "JENKINS_URL"
-              value: "http://jenkins-agent.cicd:50000/"
+              value: "http://jenkins.cicd/"
+            - name: "JENKINS_TUNNEL"
+              value: "jenkins-agent.cicd:50000"
             - name: "JENKINS_AGENT_WORKDIR"
               value: "/tmp"
             - name: "JENKINS_AGENT_NAME"
