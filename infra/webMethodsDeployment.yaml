@@ -54,6 +54,9 @@ spec:
               value: "wMBuilder"
             - name: "JENKINS_SECRET"
               value: "@/etc/jenkins/jenkins-secret.txt"
+          volumeMounts:
+            - name: jenkins-secret
+              mountPath: "/etc/jenkins"
         - name: "wm-builder"
           image: "registry.k8s/wmbuilder:latest"
           ports:
@@ -65,8 +68,6 @@ spec:
             - name: license-file
               mountPath: "/opt/softwareag/IntegrationServer/config/licenseKey.xml"
               subPath: "0000497888_MicroservicesRuntime_100.xml"
-            - name: jenkins-secret
-              mountPath: "/etc/jenkins"
           env:
             - name: "SAG_IS_CONFIG_PROPERTIES"
               value: "/opt/swagmsr/config/application.properties"
