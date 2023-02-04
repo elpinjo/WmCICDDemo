@@ -92,6 +92,7 @@ docker run --rm --name productservicems -d -p 8090:8090 productservice:$VERSION
         }
       }
     }
+  }
   post {
     always {
       junit 'target/surefire-reports/**/*.xml'
