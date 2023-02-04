@@ -1,0 +1,104 @@
+pipeline {
+  agent {
+      node {
+        label 'wMBuilder'
+      }
+  }
+  environment {
+    JAVA_HOME = "/opt/softwareag/jvm/jvm"
+  }
+  stages {
+    stage('Setup') {
+      parallel {
+        stage('Setup') {
+          steps {
+            sh '''#!/bin/bash
+
+export VERSION="0.0.0CI"
+echo ---------------------------------------------------------------------------
+echo Build Information
+echo ---------------------------------------------------------------------------
+echo "Working on : $JOB_NAME"
+echo "Workspace  : $WORKSPACE" 
+echo "Revision   : $SVN_REVISION"
+echo "Build      : $BUILD_NUMBER"
+echo "Deploy to  : $DEPLOY_TO"
+echo "Working in : $WORKSPACE"
+echo ---------------------------------------------------------------------------
+echo "GIT_COMMIT : $GIT_COMMIT" 
+echo "GIT_BRANCH : $GIT_BRANCH"
+echo ---------------------------------------------------------------------------
+'''
+            sh '''echo "Clean Microservice Containers"
+
+docker stop orderservicems || true
+docker stop productservicems || true
+docker stop customerservicems || true
+
+docker stop ordermg || true
+docker stop productmg || true
+docker stop customermg || true
+
+echo "Clean Test Containers"
+
+
+sleep 1
+
+runningCount=`docker ps -a -q --filter ancestor=jmeter:latest | wc -l`
+
+if [ $runningCount -gt 0 ]; then
+   docker stop $(docker ps -a -q --filter ancestor=jmeter:latest --format="{{.ID}}") > /dev/nul
+else
+   echo "No Jmeter Containers running"
+fi
+
+echo "Clean Build Assets"
+rm -rf target
+rm -rf jmeter
+
+'''
+          }
+        }
+        stage('Get Version Number') {
+          steps {
+            echo 'Get Version Number'
+            load 'versionInput.groovy'
+          }
+        }
+      }
+    }
+    stage('Checkout & prepare') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/elpinjo/SAPIntegration.git']]])
+        sh '''# created needed directories
+mkdir ${WORKSPACE}/build/repo
+        '''
+      }
+    }
+    stage('Build') {
+      steps {		
+				sh 'cd ${WORKSPACE}/SAPIntegration; /opt/softwareag/common/AssetBuildEnvironment/bin/build.sh -propertyfile build.properties'
+      }
+    }
+    stage('Deployment') {
+      parallel {
+        stage('Start MicroSvc') {
+          steps {
+            sh '''#Run the container read for testing
+
+docker run --rm --name productservicems -d -p 8090:8090 productservice:$VERSION
+'''
+          }
+        }
+      }
+    }
+  post {
+    always {
+      junit 'target/surefire-reports/**/*.xml'
+      perfReport(sourceDataFiles: 'jmeter/result.jtl', compareBuildPrevious: true, errorUnstableResponseTimeThreshold: '5000')
+      archiveArtifacts(artifacts: 'jmeter/result.*', fingerprint: true)
+
+    }
+
+  }
+}
