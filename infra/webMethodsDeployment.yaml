@@ -42,8 +42,8 @@ spec:
         app: "wm-builder"
     spec:
       containers:
-        - name: jnlp-slave
-          image: "jenkins/inbound-agent"
+        - name: "wm-builder"
+          image: "registry.k8s/wmbuilder:latest"
           workingDir: "/tmp"
           env:
             - name: "JENKINS_URL"
@@ -56,11 +56,8 @@ spec:
               value: "wMBuilder"
             - name: "JENKINS_SECRET"
               value: "@/etc/jenkins/jenkins-secret.txt"
-          volumeMounts:
-            - name: jenkins-secret
-              mountPath: "/etc/jenkins"
-        - name: "wm-builder"
-          image: "registry.k8s/wmbuilder:latest"
+            - name: "SAG_IS_CONFIG_PROPERTIES"
+              value: "/opt/swagmsr/config/application.properties"
           ports:
             - containerPort: 5555
               protocol: "TCP"
@@ -70,9 +67,8 @@ spec:
             - name: license-file
               mountPath: "/opt/softwareag/IntegrationServer/config/licenseKey.xml"
               subPath: "0000497888_MicroservicesRuntime_100.xml"
-          env:
-            - name: "SAG_IS_CONFIG_PROPERTIES"
-              value: "/opt/swagmsr/config/application.properties"
+            - name: jenkins-secret
+              mountPath: "/etc/jenkins"
       volumes:
         - name: config-volume
           configMap:
