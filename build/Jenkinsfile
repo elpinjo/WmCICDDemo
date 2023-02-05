@@ -46,7 +46,6 @@ rm -rf jmeter
     }
     stage('Checkout & prepare') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/elpinjo/SAPIntegration.git']]])
         sh '''# created needed directories
 mkdir -p ${WORKSPACE}/build/repo
         '''
