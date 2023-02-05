@@ -108,6 +108,8 @@ spec:
             - name: license-file
               mountPath: "/opt/softwareag/IntegrationServer/config/licenseKey.xml"
               subPath: "0000497888_MicroservicesRuntime_100.xml"
+      imagePullSecrets:
+        - name: regcred
       volumes:
         - name: license-file
           configMap:
@@ -140,6 +142,8 @@ spec:
             - name: license-file
               mountPath: "/opt/softwareag/IntegrationServer/config/licenseKey.xml"
               subPath: "0000497888_MicroservicesRuntime_100.xml"
+      imagePullSecrets:
+        - name: regcred
       volumes:
         - name: license-file
           configMap:
