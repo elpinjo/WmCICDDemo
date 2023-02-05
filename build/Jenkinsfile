@@ -58,13 +58,13 @@ mkdir -p ${WORKSPACE}/target/repo
 				sh 'cd ${WORKSPACE}/SAPIntegration; /opt/softwareag/common/AssetBuildEnvironment/bin/build.sh'
       }
     }
-    stage('Deployment') {
+    stage('Test') {
       parallel {
-        stage('Start MicroSvc') {
+        stage('Deploy to Test') {
           steps {
-            sh '''#Run the container read for testing
-
-docker run --rm --name productservicems -d -p 8090:8090 productservice:$VERSION
+            sh '''echo "Starting the deployment"
+cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomatorUnix.sh ${WORKSPACE}/build/SAPIntegration_ProjectAutomator.xml; \
+					./Deployer.sh --deploy -force -dc testDC -project SAPIntegration -host localhost -port 5555 -user Administrator -pwd manage'
 '''
           }
         }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><DeployerSpec exitOnError="true" sourceType="Repository">
+<DeployerServer>
+<host>${machinename}:${isport}</host>
+<user>${Username}</user>
+<pwd>${Password}</pwd>
+<!--<pwdHandle>$(PasswordHandle)</pwdHandle>-->
+</DeployerServer>
+<Environment>
+<Repository>
+<repalias name="SAPIntegration">
+<type>FlatFile</type>
+<urlOrDirectory>/tmp/jenkins/workspace/testBuild/target/repo</urlOrDirectory>
+<createIndex>false</createIndex>
+<Test>false</Test>
+</repalias>
+</Repository>
+<IS>
+<isalias name="test">
+<host>wm-test-service.swag-infra</host>
+<port>5555</port>
+<user>Administrator</user>
+<pwd>${Password}</pwd>
+<!--<pwdHandle>$(PasswordHandle)</pwdHandle>-->
+<useSSL>false</useSSL>
+<version>10.15</version>
+<installDeployerResource>false</installDeployerResource>
+<Test>false</Test>
+<executeACL>Internal</executeACL>
+</isalias>
+<isalias name="production">
+<host>wm-production-service.swag-infra</host>
+<port>5555</port>
+<user>Administrator</user>
+<pwd>${Password}</pwd>
+<!--<pwdHandle>$(PasswordHandle)</pwdHandle>-->
+<useSSL>false</useSSL>
+<version>10.15</version>
+<installDeployerResource>false</installDeployerResource>
+<Test>false</Test>
+<executeACL>Internal</executeACL>
+</isalias>
+</IS>
+</Environment>
+<Projects projectPrefix="">
+<Project description="" name="SAPIntegration" overwrite="false" type="Repository">
+<ProjectProperties>
+<Property name="projectLocking">false</Property>
+<Property name="concurrentDeployment">true</Property>
+<Property name="ignoreMissingDependencies">false</Property>
+<Property name="isTransactionalDeployment">true</Property>
+</ProjectProperties>
+<DeploymentSet autoResolve="full" description="" name="myDeploymentSet" srcAlias="SAPIntegration">
+<Composite displayName="WxSAPIntegration" name="WxSAPIntegration" srcAlias="SAPIntegration" type="IS"/>
+<Composite displayName="SalesOrder" name="SalesOrder" srcAlias="SAPIntegration" type="IS"/>
+<Composite displayName="Product" name="Product" srcAlias="SAPIntegration" type="IS"/>
+<Composite displayName="Customer" name="Customer" srcAlias="SAPIntegration" type="IS"/>
+</DeploymentSet>
+<DeploymentMap description="" name="testDM"/>
+<MapSetMapping mapName="testDM" setName="myDeploymentSet">
+<alias type="IS">test</alias>
+</MapSetMapping>
+<DeploymentMap description="" name="productionDM"/>
+<MapSetMapping mapName="productionDM" setName="myDeploymentSet">
+<alias type="IS">production</alias>
+</MapSetMapping>
+<DeploymentCandidate description="" mapName="productionDM" name="productionDC"/>
+<DeploymentCandidate description="" mapName="testDM" name="testDC"/>
+</Project>
+</Projects>
+</DeployerSpec>
