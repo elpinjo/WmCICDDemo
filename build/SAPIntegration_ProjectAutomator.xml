@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?><DeployerSpec exitOnError="true" sourceType="Repository">
 <DeployerServer>
-<host>${machinename}:${isport}</host>
-<user>${Username}</user>
-<pwd>${Password}</pwd>
+    <host>localhost:5555</host>
+    <user>Administrator</user>
+    <pwd>{DES}vrFIelCdkow=</pwd>
 <!--<pwdHandle>$(PasswordHandle)</pwdHandle>-->
 </DeployerServer>
 <Environment>
-<Repository>
-<repalias name="SAPIntegration">
-<type>FlatFile</type>
-<urlOrDirectory>/tmp/jenkins/workspace/testBuild/target/repo</urlOrDirectory>
-<createIndex>false</createIndex>
-<Test>false</Test>
-</repalias>
-</Repository>
+    <Repository>
+        <repalias name="SAPIntegration">
+            <type>FlatFile</type>
+            <urlOrDirectory>/tmp/jenkins/workspace/testBuild/target/repo</urlOrDirectory>
+            <createIndex>false</createIndex>
+            <Test>false</Test>
+        </repalias>
+    </Repository>
 <IS>
 <isalias name="test">
 <host>wm-test-service.swag-infra</host>
