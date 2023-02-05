@@ -31,7 +31,6 @@ echo ---------------------------------------------------------------------------
 '''
             sh '''echo "Clean Microservice Containers"
 echo "Clean Build Assets"
-rm -rf build
 rm -rf target
 rm -rf jmeter
 '''
@@ -49,7 +48,7 @@ rm -rf jmeter
       steps {
         sh '''# created needed directories
         git submodule update --init
-mkdir -p ${WORKSPACE}/build/repo
+mkdir -p ${WORKSPACE}/target/repo
         '''
       }
     }
