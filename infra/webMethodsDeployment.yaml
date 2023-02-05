@@ -82,6 +82,70 @@ spec:
             optional: false
   replicas: 1
 ---
+kind: "Deployment"
+apiVersion: "apps/v1"
+metadata:
+  name: "wm-test"
+  namespace: "swag-infra"
+  labels:
+    app: "wm-test"
+spec:
+  selector:
+    matchLabels:
+      app: "wm-test" 
+  template: 
+    metadata:
+      labels:
+        app: "wm-test"
+    spec:
+      containers:
+        - name: "wm-test"
+          image: "sagcr.azurecr.io/webmethods-microservicesruntime:10.15.0.1"
+          ports:
+            - containerPort: 5555
+              protocol: "TCP"
+          volumeMounts:
+            - name: license-file
+              mountPath: "/opt/softwareag/IntegrationServer/config/licenseKey.xml"
+              subPath: "0000497888_MicroservicesRuntime_100.xml"
+      volumes:
+        - name: license-file
+          configMap:
+            name: msr-license
+  replicas: 1
+---
+kind: "Deployment"
+apiVersion: "apps/v1"
+metadata:
+  name: "wm-production"
+  namespace: "swag-infra"
+  labels:
+    app: "wm-production"
+spec:
+  selector:
+    matchLabels:
+      app: "wm-production" 
+  template: 
+    metadata:
+      labels:
+        app: "wm-production"
+    spec:
+      containers:
+        - name: "wm-production"
+          image: "sagcr.azurecr.io/webmethods-microservicesruntime:10.15.0.1"
+          ports:
+            - containerPort: 5555
+              protocol: "TCP"
+          volumeMounts:
+            - name: license-file
+              mountPath: "/opt/softwareag/IntegrationServer/config/licenseKey.xml"
+              subPath: "0000497888_MicroservicesRuntime_100.xml"
+      volumes:
+        - name: license-file
+          configMap:
+            name: msr-license
+  replicas: 1
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -97,4 +161,38 @@ spec:
       targetPort: 5555
   selector:
     app: wm-builder
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wm-test
+  name: wm-test-service
+  namespace: swag-infra
+spec: 
+  ports:
+    - name: wmadmin
+      port: 5555
+      protocol: TCP
+      targetPort: 5555
+  selector:
+    app: wm-test
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wm-production
+  name: wm-production-service
+  namespace: swag-infra
+spec: 
+  ports:
+    - name: wmadmin
+      port: 5555
+      protocol: TCP
+      targetPort: 5555
+  selector:
+    app: wm-production
   type: LoadBalancer
