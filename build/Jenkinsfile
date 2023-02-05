@@ -6,6 +6,7 @@ pipeline {
   }
   environment {
     JAVA_HOME = "/opt/softwareag/jvm/jvm"
+    BUILD_PROPS_LOCATION = "${env.WORKSPACE}/build"
   }
   stages {
     stage('Setup') {
@@ -54,7 +55,7 @@ mkdir -p ${WORKSPACE}/target/repo
     }
     stage('Build') {
       steps {		
-				sh 'cd ${WORKSPACE}/SAPIntegration; /opt/softwareag/common/AssetBuildEnvironment/bin/build.sh -propertyfile ../build/build.properties'
+				sh 'cd ${WORKSPACE}/SAPIntegration; /opt/softwareag/common/AssetBuildEnvironment/bin/build.sh'
       }
     }
     stage('Deployment') {
