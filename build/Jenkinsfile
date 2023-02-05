@@ -31,6 +31,7 @@ echo ---------------------------------------------------------------------------
 '''
             sh '''echo "Clean Microservice Containers"
 echo "Clean Build Assets"
+rm -rf build
 rm -rf target
 rm -rf jmeter
 '''
@@ -47,13 +48,14 @@ rm -rf jmeter
     stage('Checkout & prepare') {
       steps {
         sh '''# created needed directories
+        git submodule update --init
 mkdir -p ${WORKSPACE}/build/repo
         '''
       }
     }
     stage('Build') {
       steps {		
-				sh 'cd ${WORKSPACE}/SAPIntegration; /opt/softwareag/common/AssetBuildEnvironment/bin/build.sh -propertyfile build.properties'
+				sh 'cd ${WORKSPACE}/SAPIntegration; /opt/softwareag/common/AssetBuildEnvironment/bin/build.sh -propertyfile ../build/build.properties'
       }
     }
     stage('Deployment') {
