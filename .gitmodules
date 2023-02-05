@@ -1,0 +1,4 @@
+[submodule "SAPIntegration"]
+	path = SAPIntegration
+	url = https://github.com/elpinjo/SAPIntegration.git
+	branch = master
