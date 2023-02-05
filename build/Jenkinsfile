@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Setup') {
       parallel {
-        stage('Setup') {
+        stage('Print') {
           steps {
             sh '''#!/bin/bash
 
@@ -48,7 +48,7 @@ rm -rf jmeter
       steps {
         checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/elpinjo/SAPIntegration.git']]])
         sh '''# created needed directories
-mkdir ${WORKSPACE}/build/repo
+mkdir -p ${WORKSPACE}/build/repo
         '''
       }
     }

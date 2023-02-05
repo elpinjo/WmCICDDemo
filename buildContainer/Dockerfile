@@ -1,5 +1,5 @@
 FROM redhat/ubi8
-RUN groupadd sagadmin -g 1724 && useradd sagadmin -u 1724 -g 1724 && mkdir /opt/softwareag && chown 1724:1724 /opt/softwareag
+RUN yum install -y git && groupadd sagadmin -g 1724 && useradd sagadmin -u 1724 -g 1724 && mkdir /opt/softwareag && chown 1724:1724 /opt/softwareag
 ENV SAG_HOME=/opt/softwareag
 WORKDIR $SAG_HOME
 COPY --chown=1724:1724 softwareag.tgz $SAG_HOME
