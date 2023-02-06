@@ -19,7 +19,7 @@
 <host>wm-test-service.swag-infra</host>
 <port>5555</port>
 <user>Administrator</user>
-<pwd>${Password}</pwd>
+<pwd>{DES}vrFIelCdkow=</pwd>
 <!--<pwdHandle>$(PasswordHandle)</pwdHandle>-->
 <useSSL>false</useSSL>
 <version>10.15</version>
@@ -31,7 +31,7 @@
 <host>wm-production-service.swag-infra</host>
 <port>5555</port>
 <user>Administrator</user>
-<pwd>${Password}</pwd>
+<pwd>{DES}vrFIelCdkow=</pwd>
 <!--<pwdHandle>$(PasswordHandle)</pwdHandle>-->
 <useSSL>false</useSSL>
 <version>10.15</version>
