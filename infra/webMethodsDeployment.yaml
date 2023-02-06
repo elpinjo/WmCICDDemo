@@ -100,7 +100,7 @@ spec:
     spec:
       containers:
         - name: "wm-test"
-          image: "sagcr.azurecr.io/webmethods-microservicesruntime:10.15.0.1"
+          image: "sagcr.azurecr.io/webmethods-microservicesruntime:10.15.0.1-ubi"
           ports:
             - containerPort: 5555
               protocol: "TCP"
@@ -134,7 +134,7 @@ spec:
     spec:
       containers:
         - name: "wm-production"
-          image: "sagcr.azurecr.io/webmethods-microservicesruntime:10.15.0.1"
+          image: "sagcr.azurecr.io/webmethods-microservicesruntime:10.15.0.1-ubi"
           ports:
             - containerPort: 5555
               protocol: "TCP"
