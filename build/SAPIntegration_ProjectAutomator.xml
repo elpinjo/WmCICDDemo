@@ -68,10 +68,11 @@
 				<Composite displayName="Product" name="Product" srcAlias="SAPIntegration" type="IS" />
 				<Composite displayName="Customer" name="Customer" srcAlias="SAPIntegration" type="IS" />
 			</DeploymentSet>
-			<DeploymentMap description="" name="testDM" />
+            <DeploymentMap description="" name="ciDM" />
 			<MapSetMapping mapName="ciDM" setName="myDeploymentSet">
 				<alias type="IS">ci</alias>
 			</MapSetMapping>
+			<DeploymentMap description="" name="testDM" />
 			<MapSetMapping mapName="testDM" setName="myDeploymentSet">
 				<alias type="IS">test</alias>
 			</MapSetMapping>
