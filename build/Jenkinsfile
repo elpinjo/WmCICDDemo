@@ -60,20 +60,35 @@ mkdir -p ${WORKSPACE}/test/reports
 				sh 'cd ${WORKSPACE}/SAPIntegration; /opt/softwareag/common/AssetBuildEnvironment/bin/build.sh'
       }
     }
-    stage('Deploy to Test') {
+    stage('Test Assets ') {
       steps {
         sh '''echo "Starting the deployment"
 cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomatorUnix.sh ${WORKSPACE}/build/SAPIntegration_ProjectAutomator.xml; \
-./Deployer.sh --deploy -force -dc testDC -project SAPIntegration -host localhost -port 5555 -user Administrator -pwd manage
+./Deployer.sh --deploy -force -dc ciDC -project SAPIntegration -host localhost -port 5555 -user Administrator -pwd manage
+echo "Testing the deployment"
+cd ${WORKSPACE}/test
+/opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml composite-runner-all-tests -DwebMethods.test.setup.location=`pwd`
 '''
       }
     }
-    stage('Test the assets') {
-      steps {
-        sh '''echo "Testing the deployment"
-        cd ${WORKSPACE}/test
-        /opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml composite-runner-all-tests -DwebMethods.test.setup.location=`pwd`
-        '''
+    stage('Deploy') {
+      parallel {
+        stage('Deploy to Test') {
+          steps {
+            sh '''echo "Deploying to Test"
+cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomatorUnix.sh ${WORKSPACE}/build/SAPIntegration_ProjectAutomator.xml; \
+./Deployer.sh --deploy -force -dc testDC -project SAPIntegration -host localhost -port 5555 -user Administrator -pwd manage
+'''
+          }
+        }
+        stage('Deploy to Production') {
+          steps {
+            sh '''echo "Deploying to Production"
+cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomatorUnix.sh ${WORKSPACE}/build/SAPIntegration_ProjectAutomator.xml; \
+./Deployer.sh --deploy -force -dc productionDC -project SAPIntegration -host localhost -port 5555 -user Administrator -pwd manage
+'''
+          }
+        }
       }
     }
   }
