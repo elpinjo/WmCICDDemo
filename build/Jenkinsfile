@@ -92,8 +92,6 @@ cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomator
   post {
     always {
       junit 'test/**/*.xml'
-      perfReport(sourceDataFiles: 'jmeter/result.jtl', compareBuildPrevious: true, errorUnstableResponseTimeThreshold: '5000')
-      archiveArtifacts(artifacts: 'jmeter/result.*', fingerprint: true)
 
     }
 
