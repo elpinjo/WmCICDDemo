@@ -16,6 +16,18 @@
 			</repalias>
 		</Repository>
 		<IS>
+			<isalias name="ci">
+				<host>localhost</host>
+				<port>5555</port>
+				<user>Administrator</user>
+				<pwd>{DES}vrFIelCdkow=</pwd>
+				<!-- <pwdHandle>$(PasswordHandle)</pwdHandle> -->
+				<useSSL>false</useSSL>
+				<version>10.15</version>
+				<installDeployerResource>false</installDeployerResource>
+				<Test>false</Test>
+				<executeACL>Internal</executeACL>
+			</isalias>
 			<isalias name="test">
 				<host>wm-test-service.swag-infra</host>
 				<port>5555</port>
@@ -57,6 +69,9 @@
 				<Composite displayName="Customer" name="Customer" srcAlias="SAPIntegration" type="IS" />
 			</DeploymentSet>
 			<DeploymentMap description="" name="testDM" />
+			<MapSetMapping mapName="ciDM" setName="myDeploymentSet">
+				<alias type="IS">ci</alias>
+			</MapSetMapping>
 			<MapSetMapping mapName="testDM" setName="myDeploymentSet">
 				<alias type="IS">test</alias>
 			</MapSetMapping>
@@ -66,6 +81,7 @@
 			</MapSetMapping>
 			<DeploymentCandidate description="" mapName="productionDM" name="productionDC" />
 			<DeploymentCandidate description="" mapName="testDM" name="testDC" />
+            <DeploymentCandidate description="" mapName="ciDM" name="ciDC" />
 		</Project>
 	</Projects>
 </DeployerSpec>
