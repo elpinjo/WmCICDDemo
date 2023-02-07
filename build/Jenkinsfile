@@ -50,6 +50,7 @@ rm -rf test/test
       steps {
         sh '''# created needed directories
         git submodule update --init
+        git submodule update --remote
 mkdir -p ${WORKSPACE}/target/repo
 mkdir -p ${WORKSPACE}/test/reports
         '''
@@ -67,7 +68,7 @@ cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomator
 ./Deployer.sh --deploy -force -dc ciDC -project SAPIntegration -host localhost -port 5555 -user Administrator -pwd manage
 echo "Testing the deployment"
 cd ${WORKSPACE}/test
-/opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml composite-runner-all-tests -DwebMethods.test.setup.location=`pwd`
+/opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml composite-runner-all-tests -DwebMethods.test.setup.location=${WORKSPACE}/SAPIntegration/packages/Customer
 '''
       }
     }
