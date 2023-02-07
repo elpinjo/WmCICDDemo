@@ -51,7 +51,7 @@ rm -rf test/test
         sh '''# created needed directories
         git submodule update --init
 mkdir -p ${WORKSPACE}/target/repo
-mkdir -p ${WORKSPACE}/test/test/reports
+mkdir -p ${WORKSPACE}/test/reports
         '''
       }
     }
@@ -79,7 +79,7 @@ cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomator
   }
   post {
     always {
-      junit 'test/test/**/*.xml'
+      junit 'test/**/*.xml'
       perfReport(sourceDataFiles: 'jmeter/result.jtl', compareBuildPrevious: true, errorUnstableResponseTimeThreshold: '5000')
       archiveArtifacts(artifacts: 'jmeter/result.*', fingerprint: true)
 
