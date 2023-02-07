@@ -68,6 +68,14 @@ cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomator
 '''
           }
         }
+        stage('Test deployment') {
+          steps {
+            sh '''echo "Testing the deployment"
+            cd ${WORKSPACE}/test
+            /opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml composite-runner-all-tests -DwebMethods.test.setup.location=`pwd`
+            '''
+          }
+        }
       }
     }
   }
