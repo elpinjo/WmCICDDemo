@@ -72,24 +72,20 @@ cd ${WORKSPACE}/test
 '''
       }
     }
-    stage('Deploy') {
-      parallel {
-        stage('Deploy to Test') {
-          steps {
-            sh '''echo "Deploying to Test"
+    stage('Deploy to Test') {
+      steps {
+        sh '''echo "Deploying to Test"
 cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomatorUnix.sh ${WORKSPACE}/build/SAPIntegration_ProjectAutomator.xml; \
 ./Deployer.sh --deploy -force -dc testDC -project SAPIntegration -host localhost -port 5555 -user Administrator -pwd manage
 '''
-          }
-        }
-        stage('Deploy to Production') {
-          steps {
-            sh '''echo "Deploying to Production"
+      }
+    }
+    stage('Deploy to Production') {
+      steps {
+        sh '''echo "Deploying to Production"
 cd /opt/softwareag/IntegrationServer/packages/WmDeployer/bin; ./projectautomatorUnix.sh ${WORKSPACE}/build/SAPIntegration_ProjectAutomator.xml; \
 ./Deployer.sh --deploy -force -dc productionDC -project SAPIntegration -host localhost -port 5555 -user Administrator -pwd manage
 '''
-          }
-        }
       }
     }
   }
